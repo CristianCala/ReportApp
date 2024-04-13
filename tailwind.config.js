@@ -10,8 +10,8 @@ module.exports = {
         current: "current",
         transparent: "transparent",
         theme: {
-          main: '#262626',
-          primary: '#E53D40',
+          main: '#34495E',
+          primary: '#41B883',
           secondary: '#E8E6E7',
         }
       },

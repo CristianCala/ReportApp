@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import DashboardView from '../views/DashboardView.vue'
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,8 +18,8 @@ const router = createRouter({
 		/* this.$router.push({ name: 'Dashboard' }) */
 		{
 			path: '/dashboard',
-			name: 'dashboard',
-			component: () => import('../views/DashboardView.vue')
+			name: 'Dashboard',
+			component: DashboardView
 		},
 	]
 })
