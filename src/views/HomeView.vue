@@ -1,5 +1,4 @@
 <template>
-	<Toast v-if="showToast" :type="toastType" :message="toastMessage" @close="showToast = false" class="text-center" />
 	<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 mt-32">
 		<div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm bg-white p-4 rounded-lg shadow-lg">
 			<div class="sm:mx-auto sm:w-full sm:max-w-sm bg-white">
@@ -12,10 +11,10 @@
 				<div>
 					<div class="mt-2">
 						<input
-							v-model="name"
-							name="text"
-							type="text"
-							placeholder="Nombre de usuario"
+							v-model="email"
+							name="email"
+							type="email"
+							placeholder="Email"
 							required
 							class="block w-full rounded-md px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
 						>
@@ -56,52 +55,48 @@
 </template>
 
 <script>
-import Toast from '@/components/Toast.vue'
 import { bouncy } from 'ldrs'
 import { ref, get } from 'firebase/database'
 import db from '@/firebase/init.js'
+import { useToast } from 'vue-toastification'
+import "vue-toastification/dist/index.css"
 
 bouncy.register()
 
 export default {
     name: 'HomeView',
-	components: {
-		Toast
-	},
 	data() {
 		return {
 			loadingUser: false,
-			name: '',
+			email: '',
 			password: '',
-			showToast: false,
-			toastType: '',
-			toastMessage: ''
 		}
 	},
 
 	methods: {
 		async sessionCheck() {
+			const toast = useToast()
+
 			this.loadingUser = true
-			if (!this.name || !this.password) {
-				this.showToastMessage('warning', 'Por favor, llena todos los campos')
+			if (!this.email || !this.password) {
+				toast.warning('Por favor, llena todos los campos')
 				this.loadingUser = false
 				return
 			}
 			try {
 				const usersRef = ref(db, 'users')
 				const snapshot = await get(usersRef)
-	
+				console.log(snapshot.val().userste )
 				if (snapshot.exists()) {
-					const userExists = Object.values(snapshot.val()).some(user => user.name === this.name && user.password === this.password)
-					console.log(userExists)
+					const userExists = Object.values(snapshot.val()).some(user => user.email === this.email && user.password === this.password)
 					if (userExists) {
-						this.showToastMessage('success', 'Inicio de sesión exitoso')
+						toast.success('Inicio de sesión exitoso')
 						this.$router.push({ name: 'Dashboard' })
 					} else {
-						this.showToastMessage('warning', 'Usuario o contraseña incorrectos')
+						toast.error('Usuario o contraseña incorrectos')
 					}
 				} else {
-					this.showToastMessage('error', 'No se pudo conectar con la base de datos')
+					toast.error('No se pudo conectar con la base de datos')
 				}
 			} catch (error) {
 				console.error(error)
@@ -109,11 +104,6 @@ export default {
 				this.loadingUser = false
 			}
 		},
-		showToastMessage(type, message) {
-			this.toastType = type
-			this.toastMessage = message
-			this.showToast = true
-		}
 	},
 }
 </script>
