@@ -19,7 +19,7 @@ app.use(Toast, {
     draggablePercent: 0.6,
     showCloseButtonOnHover: false,
     hideProgressBar: true,
-    closeButton: false,
+    closeButton: true,
     icon: true,
     rtl: false,
     maxToasts: 3,
