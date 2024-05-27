@@ -20,7 +20,7 @@
                         <div class="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
                             <button
                                 @click="showModal = true"
-                                class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
+                                class="bg-emerald-500 text-white active:bg-emerald-600 text-xs font-bold px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1" type="button"
                             >
                                 Crear Reporte
                             </button>
@@ -62,6 +62,9 @@
                             <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                                 Vota
                             </th>
+                            <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                Acciones
+                            </th>
                         </tr>
                         </thead>
 
@@ -102,6 +105,23 @@
                                         {{ isVote(report.isVoter).text }}
                                     </span>
                                 </td>
+                                <td class="px-6 py-4 text-center">
+                                    <div class="relative inline-block">
+                                        <div>
+                                            <ion-icon
+                                                @click="toggleDropdown(report.id)"
+                                                name="ellipsis-vertical-outline"
+                                                class="cursor-pointer p-2 bg-gray-200 rounded-full hover:bg-green-200"
+                                            />
+                                        </div>
+                                        <div v-if="showDropdown(report.id)" class="absolute z-10 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                                            <div class="py-1" role="none">
+                                            <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">Editar</a>
+                                            <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-1" @click="deleteReport(report.id)">Eliminar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                         </tbody>
 
@@ -118,7 +138,7 @@
 </template>
 
 <script>
-import { ref, get } from 'firebase/database'
+import { ref, get, remove } from 'firebase/database'
 import db from '@/firebase/init.js'
 import { useToast } from 'vue-toastification'
 import ModalCreateReport from '../components/ModalCreateReport.vue'
@@ -131,6 +151,7 @@ export default {
     },
     data() {
         return {
+            dropdowns: {},
             loadingTable: false,
             reports: [],
             showModal: false,
@@ -145,11 +166,21 @@ export default {
             try {
                 const response = await get(ref(db, 'reports'))
                 this.reports = response.val()
-                console.log(this.reports)
             } catch (error) {
                 toast.error('Error al obtener los reportes')
             } finally {
                 this.loadingTable = false
+            }
+        },
+        async deleteReport(id) {
+            const toast = useToast()
+
+            try {
+                await remove(ref(db, `reports/${id}`))
+                toast.success('Reporte eliminado con éxito')
+                this.getReports()
+            } catch (error) {
+                toast.error('Error al eliminar el reporte')
             }
         },
         isVote(value) {
@@ -159,6 +190,12 @@ export default {
             }
 
             return voteMap[value]
+        },
+        toggleDropdown(id) {
+            this.dropdowns[id] = !this.dropdowns[id]
+        },
+        showDropdown(id) {
+            return this.dropdowns[id] || false
         }
     },
 
