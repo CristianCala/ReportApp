@@ -71,7 +71,7 @@
                                     {{ report.name }}
                                 </th>
                                 <td class="px-6 py-4">
-                                    {{ report.last_name }}
+                                    {{ report.lastName }}
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ report.identifier }}
@@ -86,17 +86,20 @@
                                     {{ report.childrens }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ report.older_adults }}
+                                    {{ report.olderAdults }}
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ report.disability }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ report.card_id }}
+                                    {{ report.cardId }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    <span :class="'px-2 py-1 px-3 font-semibold leading-5 text-white bg-' + (isVote(report.is_voter).color) + '-500 rounded-full'">
-                                        {{ isVote(report.is_voter).text }}
+                                    <span
+                                        class="px-2 py-1 px-3 font-semibold leading-5 text-white rounded-full"
+                                        :class="(isVote(report.isVoter).color)"
+                                    >
+                                        {{ isVote(report.isVoter).text }}
                                     </span>
                                 </td>
                             </tr>
@@ -109,6 +112,7 @@
     </section>
     <modal-create-report
         v-if="showModal"
+        @getReports="getReports"
         @close="showModal = false"
     />
 </template>
@@ -137,10 +141,11 @@ export default {
         async getReports() {
             const toast = useToast()
             this.loadingTable = true
-            
+
             try {
                 const response = await get(ref(db, 'reports'))
                 this.reports = response.val()
+                console.log(this.reports)
             } catch (error) {
                 toast.error('Error al obtener los reportes')
             } finally {
@@ -149,8 +154,8 @@ export default {
         },
         isVote(value) {
             const voteMap = {
-                1: { color: 'green', text: 'Si' },
-                0: { color: 'red', text: 'No' }
+                true: { color: 'bg-green-500', text: 'Si' },
+                false: { color: 'bg-red-500', text: 'No' }
             }
 
             return voteMap[value]

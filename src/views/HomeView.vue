@@ -85,7 +85,6 @@ export default {
 			try {
 				const usersRef = ref(db, 'users')
 				const snapshot = await get(usersRef)
-				console.log(snapshot.val().userste )
 				if (snapshot.exists()) {
 					const userExists = Object.values(snapshot.val()).some(user => user.email === this.email && user.password === this.password)
 					if (userExists) {

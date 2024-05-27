@@ -124,10 +124,16 @@
 </template>
 
 <script>
+import { ref, push } from 'firebase/database'
+import { useToast } from 'vue-toastification'
+import db from '@/firebase/init.js'
+import "vue-toastification/dist/index.css"
+
 export default {
 	name: 'ModalCreateReport',
 	data() {
 		return {
+            loading: false,
 			form: {
 				email: '',
 				name: '',
@@ -146,7 +152,23 @@ export default {
 	methods: {
 		closeModal() {
 			this.$emit('close')
-		}
+		},
+        async submitForm() {
+            const toast = useToast()
+            this.loading = true
+            try {
+                const reportsRef = ref(db, 'reports')
+                await push(reportsRef, this.form)
+                toast.success('Reporte creado exitosamente')
+                this.closeModal()
+                this.$emit('getReports')
+            } catch (error) {
+                console.error(error)
+                toast.error('Hubo un error al crear el reporte')
+            } finally {
+                this.loading = false
+            }
+        },
 	}
 }
 </script>
