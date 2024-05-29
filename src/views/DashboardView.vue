@@ -106,7 +106,7 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 text-center">
-                                    <div class="relative inline-block">
+                                    <div class="relative">
                                         <div>
                                             <ion-icon
                                                 @click="toggleDropdown(report.id)"
@@ -116,7 +116,7 @@
                                         </div>
                                         <div v-if="showDropdown(report.id)" class="absolute z-10 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                                             <div class="py-1" role="none">
-                                            <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">Editar</a>
+                                            <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0" @click="editReport(report)">Editar</a>
                                             <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-1" @click="deleteReport(report.id)">Eliminar</a>
                                             </div>
                                         </div>
@@ -132,8 +132,9 @@
     </section>
     <modal-create-report
         v-if="showModal"
+        :data-edit="selectedReport"
         @getReports="getReports"
-        @close="showModal = false"
+        @close="closeModal"
     />
 </template>
 
@@ -151,6 +152,7 @@ export default {
     },
     data() {
         return {
+            selectedReport: null,
             dropdowns: {},
             loadingTable: false,
             reports: [],
@@ -196,6 +198,14 @@ export default {
         },
         showDropdown(id) {
             return this.dropdowns[id] || false
+        },
+        editReport(report) {
+            this.selectedReport = report
+            this.showModal = true
+        },
+        closeModal() {
+            this.showModal = false
+            this.selectedReport = null
         }
     },
 
