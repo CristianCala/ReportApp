@@ -53,7 +53,6 @@
                             v-model="form.members"
                             type="number"
                             placeholder="No. Integrantes"
-                            required
                             class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
                         />
                     </div>
@@ -64,7 +63,6 @@
                             v-model="form.childrens"
                             type="number"
                             placeholder="No. Menores"
-                            required
                             class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
                         />
                     </div>
@@ -75,7 +73,6 @@
                             v-model="form.olderAdults"
                             type="number"
                             placeholder="No. Mayores"
-                            required
                             class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
                         />
                     </div>
@@ -86,7 +83,6 @@
                             v-model="form.disability"
                             type="number"
                             placeholder="No. Incapacitados"
-                            required
                             class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
                         />
                     </div>
@@ -97,7 +93,6 @@
                             v-model="form.cardId"
                             type="text"
                             placeholder="C. de la patria"
-                            required
                             class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
                         />
                     </div>

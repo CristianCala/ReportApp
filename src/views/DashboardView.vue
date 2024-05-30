@@ -69,7 +69,7 @@
                         </thead>
 
                         <tbody>
-                            <tr class="bg-white border-b" v-for="report in reports" :key="report.identifier">
+                            <tr class="border-b" v-for="(report, index) in reports" :key="report.identifier" :class="getRowClass()">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     {{ report.name }}
                                 </th>
@@ -157,6 +157,7 @@ export default {
             loadingTable: false,
             reports: [],
             showModal: false,
+            counter: 0
         }
     },
 
@@ -206,6 +207,11 @@ export default {
         closeModal() {
             this.showModal = false
             this.selectedReport = null
+        },
+        getRowClass() {
+            const className = this.counter % 2 === 0 ? 'bg-white' : 'bg-gray-200'
+            this.counter++
+            return className
         }
     },
 
