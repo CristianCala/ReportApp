@@ -1,109 +1,127 @@
 <template v-if="isOpen">
     <div class="fixed inset-0 z-50 flex items-center justify-center">
         <div class="bg-black opacity-25 absolute inset-0"></div>
-        <div class="bg-white rounded-lg p-6 z-50 relative w-full max-w-md mx-auto">
-            <div class="text-center md:text-left">
-                <p class="font-bold">Crear nuevo reporte</p>
-                <p class="text-sm text-gray-700 mt-1">Crea un nuevo reporte para el sistema</p>
-            </div>
-            <form @submit.prevent="isEdit ? updateForm() : submitForm()" class="mt-4">
-                <div class="mt-2 grid grid-cols-2 gap-4">
-                    <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
-                        <input
+        <div class="bg-white rounded-lg p-6 z-50 relative w-full max-w-xl mx-auto">
+            <ol class="flex items-center w-full p-3 space-x-2 text-sm font-medium text-center bg-white border border-emerald-500 rounded-lg shadow-sm sm:text-base sm:p-4 sm:space-x-4 rtl:space-x-reverse">
+                <li class="flex items-center cursor-pointer" :class="{ 'text-emerald-500': step === 1 }" @click="step = 1">
+                    <span class="flex items-center justify-center w-8 h-8 text-sm border rounded-full shrink-0" :class="{ 'text-white bg-emerald-500': step === 1, 'border-gray-500': step !== 1 }">
+                        1
+                    </span>
+                    <span class="text-gray-500 text-sm" :class="{ 'text-emerald-500': step === 1 }">Jefe de Familia</span>
+                    <svg class="w-3 h-3 ms-2 sm:ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 12 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 9 4-4-4-4M1 9l4-4-4-4"/>
+                    </svg>
+                </li>
+                <li class="flex items-center cursor-pointer" :class="{ 'text-emerald-500': step === 2 }" @click="step = 2">
+                    <span class="flex items-center justify-center w-8 h-8 text-sm border rounded-full shrink-0" :class="{ 'text-white bg-emerald-500': step === 2, 'border-gray-500': step !== 2 }">
+                        2
+                    </span>
+                    <span class="text-sm" :class="{ 'text-emerald-500': step === 2 }">Ingreso Familiar</span>
+                    <svg class="w-3 h-3 ms-2 sm:ms-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 12 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 9 4-4-4-4M1 9l4-4-4-4"/>
+                    </svg>
+                </li>
+                <li class="flex items-center cursor-pointer" :class="{ 'text-emerald-500': step === 3 }" @click="step = 3">
+                    <span class="flex items-center justify-center w-8 h-8 text-sm border rounded-full shrink-0" :class="{ 'text-white bg-emerald-500': step === 3, 'border-gray-500': step !== 3 }">
+                        3
+                    </span>
+                    <span class="text-sm" :class="{ 'text-emerald-500': step === 3 }">Características del Grupo Familiar</span>
+                </li>
+            </ol>
+            <form class="mt-4">
+                <div v-show="step === 1">
+                    <h2 class="text-lg font-semibold text-gray-600">Jefe de Familia</h2>
+
+                </div>
+                <div v-show="step === 2">
+                    <h2 class="text-lg font-semibold text-gray-600">Ingreso Familiar</h2>
+                </div>
+                <div v-show="step === 3">
+                    <h2 class="text-lg font-semibold text-gray-600">Características del Grupo Familiar</h2>
+                    <div class="mt-2 grid grid-cols-2 gap-4">
+                        <InputField
                             v-model="form.name"
-                            type="text"
-                            placeholder="Nombre"
+                            label="Nombre"
+                            typeInput="text"
+                            placeholder="Introduce tu nombre"
                             required
-                            class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
                         />
-                    </div>
-                    <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
-                        <input
+                        <InputField
                             v-model="form.lastName"
-                            type="text"
-                            placeholder="Apellido"
+                            label="Apellido"
+                            typeInput="text"
+                            placeholder="Introduce tu apellido"
                             required
-                            class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
                         />
                     </div>
-                </div>
-                <div class="mt-2 grid grid-cols-2 gap-4">
-                    <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
-                        <input
+                    <div class="mt-2 grid grid-cols-2 gap-4">
+                        <InputField
                             v-model="form.identifier"
-                            type="text"
-                            placeholder="Cédula"
+                            label="Cédula"
+                            typeInput="number"
+                            placeholder="Introduce tu cédula"
                             required
-                            class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
                         />
-                    </div>
-                    <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
-                        <input
+                        <InputField
                             v-model="form.phone"
-                            type="text"
-                            placeholder="Teléfono"
+                            label="Teléfono"
+                            typeInput="tel"
+                            placeholder="Introduce tu teléfono"
                             required
-                            class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
                         />
                     </div>
-                </div>
-                <div class="mt-2">
-                    <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
-                        <input
+                    <div class="mt-2">
+                        <InputField
                             v-model="form.members"
-                            type="number"
-                            placeholder="No. Integrantes"
-                            class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
+                            label="No. Integrantes"
+                            typeInput="number"
+                            placeholder="Introduce el número de integrantes"
+                            required
                         />
                     </div>
-                </div>
-                <div class="mt-2">
-                    <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
-                        <input
+                    <div class="mt-2">
+                        <InputField
                             v-model="form.childrens"
-                            type="number"
-                            placeholder="No. Menores"
-                            class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
+                            label="No. Menores"
+                            typeInput="number"
+                            placeholder="Introduce el número de menores"
+                            required
                         />
                     </div>
-                </div>
-                <div class="mt-2">
-                    <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
-                        <input
+                    <div class="mt-2">
+                        <InputField
                             v-model="form.olderAdults"
-                            type="number"
-                            placeholder="No. Mayores"
-                            class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
+                            label="No. Mayores"
+                            typeInput="number"
+                            placeholder="Introduce el número de mayores"
+                            required
                         />
                     </div>
-                </div>
-                <div class="mt-2">
-                    <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
-                        <input
+                    <div class="mt-2">
+                        <InputField
                             v-model="form.disability"
-                            type="number"
-                            placeholder="No. Incapacitados"
-                            class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
+                            label="No. Incapacitados"
+                            typeInput="number"
+                            placeholder="Introduce el número de incapacitados"
+                            required
                         />
                     </div>
-                </div>
-                <div class="mt-2">
-                    <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
-                        <input
+                    <div class="mt-2">
+                        <InputField
                             v-model="form.cardId"
-                            type="text"
-                            placeholder="C. de la patria"
-                            class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
+                            label="C. de la patria"
+                            typeInput="number"
+                            placeholder="Introduce tu cédula de la patria"
+                            required
                         />
                     </div>
-                </div>
-                <div class="mt-2">
-                    <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
+                    <div class="mt-2">
+                        <label class="flex items center mb-2 text-gray-600 text-xs font-medium">¿Es votante?</label>
                         <select
                             v-model="form.isVoter"
                             required
                             placeholder="¿Es votante?"
-                            class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
+                            class="block w-full max-w-xl px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none leading-relaxed hover:border-emerald-500 focus:border-emerald-500"
                         >
                             <option :value="true">Sí</option>
                             <option :value="false">No</option>
@@ -114,8 +132,10 @@
                     <button 
                         type="submit"
                         class="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-emerald-500 active:bg-emerald-600 text-white rounded-lg font-semibold text-sm md:ml-2 md:order-2"
+                        @click="step === 3 ? submitForm() : stepIncrement()"
                     >
-                        {{ isEdit ? 'Actualizar Reporte' : 'Crear Reporte' }}
+                        <!-- {{ isEdit ? 'Actualizar Reporte' : 'Crear Reporte' }} -->
+                        {{ step === 3 ? 'Crear Reporte' : 'Siguiente' }}
                     </button>
                     <button @click="closeModal" type="button" class="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-gray-200 rounded-lg font-semibold text-sm mt-4 md:mt-0 md:order-1">Cancelar</button>
                 </div>
@@ -128,10 +148,14 @@
 import { ref, push, set } from 'firebase/database'
 import { useToast } from 'vue-toastification'
 import db from '@/firebase/init.js'
+import InputField from './InputField.vue'
 import "vue-toastification/dist/index.css"
 
 export default {
 	name: 'ModalCreateReport',
+    components: {
+        InputField
+    },
     props: {
         dataEdit: {
             type: Object,
@@ -141,8 +165,77 @@ export default {
 	data() {
 		return {
             loading: false,
+            step: 1,
+            civilStatusOptions: [
+                { value: 1, label: 'Soltero(a)' },
+                { value: 2, label: 'Casado(a)' },
+                { value: 3, label: 'Divorciado(a)' },
+                { value: 4, label: 'Viudo(a)' },
+            ],
+            instructionLevelOptions: [
+                { value: 1, label: 'Ninguno' },
+                { value: 2, label: 'Basica' },
+                { value: 3, label: 'Bachiller' },
+                { value: 4, label: 'Tecnico medio' },
+                { value: 5, label: 'Tecnico superior' },
+                { value: 6, label: 'Universitario' },
+                { value: 7, label: 'Postgrado' },
+            ],
+            incomeOptions: [
+                { value: 1, label: 'Diario' },
+                { value: 2, label: 'Semanal' },
+                { value: 3, label: 'Quincenal' },
+                { value: 4, label: 'Mensual' },
+                { value: 5, label: 'Por trabajo' },
+            ],
+            genderOptions: [
+                { value: 'M', label: 'Masculino' },
+                { value: 'F', label: 'Femenino' },
+                { value: 'O', label: 'Otro' },
+            ],
+            formJefeFamilia: {
+                names: '',
+                lastNames: '',
+                identifier: {
+                    type: '',
+                    number: ''
+                },
+                dateOfBirth: '',
+                yearsOld: '',
+                comunityTime: '',
+                isCne: false,
+                gender: '',
+                isDisability: false,
+                disabilityType: '',
+                isPensioner: false,
+                institute: '',
+                phoneNumbers: [],
+                email: '',
+                civilStatus: '',
+                instructionLevel: '',
+                profession: '',
+                isWorking: false,
+            },
+            formIngresoFamiliar: {
+                incomeType: '',
+                incomeAmount: '',
+            },
 			form: {
-				email: '',
+                name: '',
+                lastName: '',
+                gender: '',
+                cardId: '',
+                dateOfBirth: '',
+                yearsOld: '',
+                disabilityType: '',
+                earlyEmbracing: '',
+                relationship: '',
+                studyGrade: '',
+                isCne: false,
+                profession: '',
+                isPensioner: false,
+                monthlyIncome: '',
+/* 				email: '',
 				name: '',
 				lastName: '',
 				identifier: '',
@@ -152,7 +245,7 @@ export default {
 				olderAdults: '',
 				disability: '',
 				cardId: '',
-				isVoter: '',
+				isVoter: '', */
 			}
 		}
 	},
@@ -200,6 +293,9 @@ export default {
             } catch (error) {
                 toast.error('Hubo un error al actualizar el reporte')
             }
+        },
+        stepIncrement() {
+            this.step++
         }
 	},
     watch: {
