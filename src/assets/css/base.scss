@@ -1,28 +1,28 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-@import 'variables';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import "variables";
 
 body {
-    font-family: 'Raleway';
-    background-color: #f5f5f5;
+  font-family: "Raleway";
+  background-color: #f5f5f5;
 }
 
 ::-webkit-scrollbar {
-    width: .6rem;
-    height: .6rem;
+  width: 0.6rem;
+  height: 0.6rem;
 }
 
 ::-webkit-scrollbar-track {
-    background-color: #f5f5f5;
-    border-radius: 10px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #10b981;
-    border-radius: 10px;
+  background-color: #10b981;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background-color: #059668;
+  background-color: #059668;
 }
