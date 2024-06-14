@@ -1,9 +1,9 @@
 <template>
-  <h1>Group View</h1>
+    <h1>Group View</h1>
 </template>
 
 <script>
 export default {
-  name: "GroupView",
+    name: "GroupView",
 };
 </script>

@@ -1,11 +1,7 @@
 {
-  "hosting": {
-    "public": "dist",
-    "site": "reportapp-a7790",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ]
-  }
+    "hosting": {
+        "public": "dist",
+        "site": "reportapp-a7790",
+        "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+    }
 }
