@@ -209,6 +209,30 @@
         @getReports="getReports"
         @close="closeModal"
     />
+
+    <div class="fixed bottom-0 left-0 w-full bg-white shadow-md rounded-lg shadow-2xl">
+        <div class="flex justify-around">
+            <button class="flex flex-col items-center justify-center w-full p-2 hover:bg-gray-100">
+                <div class="h-12 w-12 rounded-full bg-emerald-500 flex items-center justify-center">
+                    <ion-icon name="grid-outline" class="text-white text-2xl" />
+                </div>
+                <span class="text-sm text-gray-700">Dashboard</span>
+            </button>
+            <button class="flex flex-col items-center justify-center w-full p-2 hover:bg-gray-100">
+                <div class="h-12 w-12 rounded-full bg-emerald-500 flex items-center justify-center">
+                    <ion-icon name="cash-outline" class="text-white text-2xl" />
+                </div>
+                <span class="text-sm text-gray-700">Pagos</span>
+            </button>
+            <button class="flex flex-col items-center justify-center w-full p-2 hover:bg-gray-100">
+                <div class="h-12 w-12 rounded-full bg-emerald-500 flex items-center justify-center">
+                    <ion-icon name="log-out-outline" class="text-white text-2xl" />
+                </div>
+                <span class="text-sm text-gray-700">Cerrar Sesión</span>
+            </button>
+        </div>
+    </div>
+
 </template>
 
 <script>

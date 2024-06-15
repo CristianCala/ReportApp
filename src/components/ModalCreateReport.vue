@@ -120,40 +120,204 @@
                         />
                     </div>
                     <div class="mt-2 grid grid-cols-2 gap-4">
-                        <div class="grid grid-cols-2 gap-4">
-                            <select
-                                v-model="formJefeFamilia.identifier.type"
+                        <div class="grid grid-cols-4 gap-4 relative">
+                            <div class="col-span-1">
+                                <label
+                                    class="flex items-center mb-2 text-gray-600 text-xs font-medium"
+                                    >Cedula</label
+                                >
+                                <select
+                                    v-model="formJefeFamilia.identifier.type"
+                                    required
+                                    placeholder="Tipo de cédula"
+                                    class="block w-full max-w-xl px-1 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none leading-relaxed hover:border-emerald-500 focus:border-emerald-500"
+                                >
+                                    <option
+                                        v-for="option in identifierOptions"
+                                        :key="option.value"
+                                        :value="option.value"
+                                    >
+                                        {{ option.label }}
+                                    </option>
+                                </select>
+                            </div>
+                            <InputField
+                                v-model="formJefeFamilia.identifier.number"
+                                typeInput="number"
+                                placeholder="Introduce tu cédula"
                                 required
-                                placeholder="Tipo de cédula"
-                                class="block max-w-xl px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none leading-relaxed hover:border-emerald-500 focus:border-emerald-500"
+                                class="mt-3 col-span-3"
+                            />
+                        </div>
+                        <div>
+                            <label
+                                class="flex items-center mb-2 text-gray-600 text-xs font-medium"
+                                >Fecha de Nacimiento</label
+                            >
+                            <VueDatePicker
+                                v-model="formJefeFamilia.dateOfBirth"
+                                label="Fecha de Nacimiento"
+                                typeInput="date"
+                                placeholder="Introduce tu fecha de nacimiento"
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div class="mt-2 grid grid-cols-2 gap-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="mt-7">
+                                <input
+                                    v-model="isCne"
+                                    label="CNE"
+                                    type="checkbox"
+                                    class="accent-emerald-500 focus:ring-emerald-500 h-4 w-4 text-emerald-600 border-gray-300 rounded"
+                                />
+                                <label
+                                    class="text-gray-600 text-sm ml-1 font-medium"
+                                    >Inscrito en CNE</label
+                                >
+                            </div>
+                            <div>
+                                <label
+                                    class="flex items-center mb-2 text-gray-600 text-xs font-medium"
+                                    >Género</label
+                                >
+                                <select
+                                    v-model="formJefeFamilia.gender"
+                                    placeholder="Género"
+                                    class="block w-full max-w-xl px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none leading-relaxed hover:border-emerald-500 focus:border-emerald-500"
+                                >
+                                    <option
+                                        v-for="option in genderOptions"
+                                        :key="option.value"
+                                        :value="option.value"
+                                    >
+                                        {{ option.label }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <InputField
+                                v-model="formJefeFamilia.yearsOld"
+                                label="Edad"
+                                typeInput="number"
+                                placeholder="Introduce tu edad"
+                            />
+                            <InputField
+                                v-model="formJefeFamilia.comunityTime"
+                                label="T. en la comunidad"
+                                typeInput="number"
+                                placeholder="Introduce el tiempo en la comunidad"
+                            />
+                        </div>
+                    </div>
+                    <div class="mt-6 grid grid-cols-2 gap-4">
+                        <div class="text-center">
+                            <input
+                                v-model="formJefeFamilia.isDisability"
+                                label="Discapacidad"
+                                type="checkbox"
+                                class="accent-emerald-500 focus:ring-emerald-500 h-4 w-4 text-emerald-600 border-gray-300 rounded"
+                            />
+                            <label class="text-gray-600 text-sm ml-1 font-medium">Discapacidad</label>
+                        </div>
+                        <div class="text-center">
+                            <input
+                                v-model="formJefeFamilia.isPensioner"
+                                label="Pensionado"
+                                type="checkbox"
+                                class="accent-emerald-500 focus:ring-emerald-500 h-4 w-4 text-emerald-600 border-gray-300 rounded"
+                            />
+                            <label class="text-gray-600 text-sm ml-1 font-medium">Pensionado</label>
+                        </div>
+                    </div>
+                    <div class="mt-2 grid grid-cols-2 gap-4">
+                        <InputField
+                            v-if="formJefeFamilia.isDisability"
+                            v-model="formJefeFamilia.disabilityType"
+                            label="Tipo de Discapacidad"
+                            typeInput="text"
+                            placeholder="Introduce el tipo de discapacidad"
+                        />
+                        <InputField
+                            v-if="formJefeFamilia.isPensioner"
+                            v-model="formJefeFamilia.institute"
+                            label="Institución"
+                            typeInput="text"
+                            placeholder="Introduce la institución"
+                        />
+                    </div>
+                    <div class="mt-2 grid grid-cols-2 gap-4">
+                        <InputField
+                            v-model="formJefeFamilia.phoneNumbers"
+                            label="Teléfonos"
+                            typeInput="tel"
+                            placeholder="Introduce número"
+                        />
+                        <InputField
+                            v-model="formJefeFamilia.email"
+                            label="Correo Electrónico"
+                            typeInput="email"
+                            placeholder="Introduce tu correo electrónico"
+                        />
+                    </div>
+                    <div class="mt-2 grid grid-cols-2 gap-4">
+                        <div>
+                            <label
+                                class="flex items-center mb-2 text-gray-600 text-xs font-medium"
+                                >Estado Civil</label
+                            >
+                            <select
+                                v-model="formJefeFamilia.civilStatus"
+                                placeholder="Estado Civil"
+                                class="block w-full max-w-xl px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none leading-relaxed hover:border-emerald-500 focus:border-emerald-500"
                             >
                                 <option
-                                    v-for="option in identifierOptions"
+                                    v-for="option in civilStatusOptions"
                                     :key="option.value"
                                     :value="option.value"
                                 >
                                     {{ option.label }}
                                 </option>
                             </select>
-                            <InputField
-                                v-model="formJefeFamilia.identifier.number"
-                                typeInput="number"
-                                placeholder="Introduce tu cédula"
-                                required
+                        </div>
+                        <div>
+                            <label
+                                class="flex items-center mb-2 text-gray-600 text-xs font-medium"
+                                >Nivel de Instrucción</label
+                            >
+                            <select
+                                v-model="formJefeFamilia.instructionLevel"
+                                placeholder="Nivel de Instrucción"
+                                class="block w-full max-w-xl px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none leading-relaxed hover:border-emerald-500 focus:border-emerald-500"
+                            >
+                                <option
+                                    v-for="option in instructionLevelOptions"
+                                    :key="option.value"
+                                    :value="option.value"
+                                >
+                                    {{ option.label }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <div class="text-center">
+                            <input
+                                v-model="formJefeFamilia.isWorking"
+                                label="Trabajando"
+                                type="checkbox"
+                                class="accent-emerald-500 focus:ring-emerald-500 h-4 w-4 text-emerald-600 border-gray-300 rounded"
                             />
+                            <label class="text-gray-600 text-sm ml-1 font-medium">Trabajando</label>
                         </div>
                         <InputField
-                            v-model="formJefeFamilia.dateOfBirth"
-                            label="Fecha de Nacimiento"
-                            typeInput="date"
-                            placeholder="Introduce tu fecha de nacimiento"
-                            required
-                        />
-                        <input
-                            datepicker
-                            type="text"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Select date"
+                            v-if="formJefeFamilia.isWorking"
+                            v-model="formJefeFamilia.profession"
+                            label="Profesión"
+                            typeInput="text"
+                            placeholder="Introduce tu profesión"
                         />
                     </div>
                 </div>
@@ -289,11 +453,14 @@ import { useToast } from "vue-toastification";
 import db from "@/firebase/init.js";
 import InputField from "./InputField.vue";
 import "vue-toastification/dist/index.css";
+import VueDatePicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
 
 export default {
     name: "ModalCreateReport",
     components: {
         InputField,
+        VueDatePicker,
     },
     props: {
         dataEdit: {

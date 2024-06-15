@@ -4,8 +4,9 @@
             <label
                 :for="inputId"
                 class="flex items-center mb-2 text-gray-600 text-xs font-medium"
-                >{{ label }}</label
             >
+                {{ label }}
+            </label>
             <input
                 :id="inputId"
                 :value="modelValue"

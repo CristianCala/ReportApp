@@ -12,6 +12,7 @@
     },
     "dependencies": {
         "@tailwindcss/typography": "^0.5.9",
+        "@vuepic/vue-datepicker": "^8.8.0",
         "firebase": "^10.11.0",
         "ldrs": "^1.0.1",
         "pinia": "^2.1.6",
