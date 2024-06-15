@@ -155,12 +155,10 @@
                                 <td class="px-6 py-4 text-center">
                                     <div class="relative">
                                         <div>
-                                            <ion-icon
-                                                @click="
-                                                    toggleDropdown(report.id)
-                                                "
-                                                name="ellipsis-vertical-outline"
+                                            <font-awesome-icon
+                                                :icon="['fas', 'ellipsis-vertical']"
                                                 class="cursor-pointer p-2 bg-gray-200 rounded-full hover:bg-green-200"
+                                                @click="toggleDropdown(report.id)"
                                             />
                                         </div>
                                         <div
@@ -209,29 +207,7 @@
         @getReports="getReports"
         @close="closeModal"
     />
-
-    <div class="fixed bottom-0 left-0 w-full bg-white shadow-md rounded-lg shadow-2xl">
-        <div class="flex justify-around">
-            <button class="flex flex-col items-center justify-center w-full p-2 hover:bg-gray-100">
-                <div class="h-12 w-12 rounded-full bg-emerald-500 flex items-center justify-center">
-                    <ion-icon name="grid-outline" class="text-white text-2xl" />
-                </div>
-                <span class="text-sm text-gray-700">Dashboard</span>
-            </button>
-            <button class="flex flex-col items-center justify-center w-full p-2 hover:bg-gray-100">
-                <div class="h-12 w-12 rounded-full bg-emerald-500 flex items-center justify-center">
-                    <ion-icon name="cash-outline" class="text-white text-2xl" />
-                </div>
-                <span class="text-sm text-gray-700">Pagos</span>
-            </button>
-            <button class="flex flex-col items-center justify-center w-full p-2 hover:bg-gray-100">
-                <div class="h-12 w-12 rounded-full bg-emerald-500 flex items-center justify-center">
-                    <ion-icon name="log-out-outline" class="text-white text-2xl" />
-                </div>
-                <span class="text-sm text-gray-700">Cerrar Sesión</span>
-            </button>
-        </div>
-    </div>
+    <tab-bar-menu />
 
 </template>
 
@@ -240,12 +216,14 @@ import { ref, get, remove } from "firebase/database";
 import db from "@/firebase/init.js";
 import { useToast } from "vue-toastification";
 import ModalCreateReport from "../components/ModalCreateReport.vue";
+import TabBarMenu from "../components/TabBarMenu.vue";
 import "vue-toastification/dist/index.css";
 
 export default {
     name: "DashboardView",
     components: {
         ModalCreateReport,
+        TabBarMenu,
     },
     data() {
         return {

@@ -10,17 +10,16 @@ const router = createRouter({
             name: "home",
             component: HomeView,
         },
-        /* 		{
-			path: '/about',
-			name: 'about',
-			component: () => import('../views/AboutView.vue')
-		} */
-        /* this.$router.push({ name: 'Dashboard' }) */
         {
             path: "/dashboard",
             name: "Dashboard",
             component: DashboardView,
         },
+        {
+            path: "/pagos",
+            name: "Pagos",
+            component: () => import("../views/PagosView.vue"),
+        }
     ],
 });
 

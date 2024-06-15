@@ -5,10 +5,10 @@
             class="bg-white rounded-lg p-6 z-50 relative w-full max-w-xl mx-auto"
         >
             <ol
-                class="flex items-center w-full p-3 space-x-2 text-sm font-medium text-center bg-white border border-emerald-500 rounded-lg shadow-sm sm:text-base sm:p-4 sm:space-x-4 rtl:space-x-reverse"
+                class="flex items-center w-full p-3 space-x-2 text-sm font-medium text-center bg-white border border-emerald-500 rounded-lg sm:text-base sm:p-4 sm:space-x-4 rtl:space-x-reverse"
             >
                 <li
-                    class="flex items-center cursor-pointer"
+                    class="flex items-center cursor-pointer hover:scale-105 duration-500"
                     :class="{ 'text-emerald-500': step === 1 }"
                     @click="step = 1"
                 >
@@ -43,7 +43,7 @@
                     </svg>
                 </li>
                 <li
-                    class="flex items-center cursor-pointer"
+                    class="flex items-center cursor-pointer hover:scale-105 duration-500"
                     :class="{ 'text-emerald-500': step === 2 }"
                     @click="step = 2"
                 >
@@ -78,7 +78,7 @@
                     </svg>
                 </li>
                 <li
-                    class="flex items-center cursor-pointer"
+                    class="flex items-center cursor-pointer hover:scale-105 duration-500"
                     :class="{ 'text-emerald-500': step === 3 }"
                     @click="step = 3"
                 >
@@ -167,7 +167,7 @@
                         <div class="grid grid-cols-2 gap-4">
                             <div class="mt-7">
                                 <input
-                                    v-model="isCne"
+                                    v-model="formJefeFamilia.isCne"
                                     label="CNE"
                                     type="checkbox"
                                     class="accent-emerald-500 focus:ring-emerald-500 h-4 w-4 text-emerald-600 border-gray-300 rounded"
@@ -321,15 +321,83 @@
                         />
                     </div>
                 </div>
+
                 <div v-show="step === 2">
                     <h2 class="text-lg font-semibold text-gray-600">
                         Ingreso Familiar
                     </h2>
+                    <p class="text-sm text-gray-600">
+                        Clasificación del ingreso familiar
+                    </p>
+                    <div class="mt-2 grid md:grid-cols-3 xs:grid-cols-1 gap-4">
+                        <template v-for="option in incomeOptions.slice(0, 3)">
+                            <div
+                                class="rounded-xl text-gray-700 bg-gray-200 hover:scale-105 duration-200 cursor-pointer"
+                                :class="{
+                                    'border-2 border-emerald-500 bg-emerald-500': formJefeFamilia.incomeType === option.label,
+                                }"
+                                @click="formJefeFamilia.incomeType = option.label"
+                            >
+                                <div class="p-4 text-center">
+                                    <div
+                                        class="flex items-center justify-center w-12 h-12 mb-2 rounded-full mx-auto"
+                                        :class="{'bg-emerald-500 text-white': formJefeFamilia.incomeType === option.label, 'bg-white': formJefeFamilia.incomeType !== option.label}"
+                                    >
+                                        <font-awesome-icon
+                                            :icon="['fas', option.icon]"
+                                            :class="{'text-white': formJefeFamilia.incomeType === option.label, 'text-emerald-500': formJefeFamilia.incomeType !== option.label}"
+                                        />
+                                    </div>
+                                    <h6 class="mb-2 block font-sans text-md font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
+                                        {{ option.label }}
+                                    </h6>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="mt-2 grid md:grid-cols-2 xs:grid-cols-1 gap-4">
+                        <template v-for="option in incomeOptions.slice(3, 5)">
+                            <div
+                                class="rounded-xl text-gray-700 bg-gray-200 hover:scale-105 duration-200 cursor-pointer"
+                                :class="{
+                                    'border-2 border-emerald-500 bg-emerald-500': formJefeFamilia.incomeType === option.label,
+                                }"
+                                @click="formJefeFamilia.incomeType = option.label"
+                            >
+                                <div class="p-4 text-center">
+                                    <div
+                                        class="flex items-center justify-center w-12 h-12 mb-2 rounded-full mx-auto"
+                                        :class="{'bg-emerald-500 text-white': formJefeFamilia.incomeType === option.label, 'bg-white': formJefeFamilia.incomeType !== option.label}"
+                                    >
+                                        <font-awesome-icon
+                                            :icon="['fas', option.icon]"
+                                            :class="{'text-white': formJefeFamilia.incomeType === option.label, 'text-emerald-500': formJefeFamilia.incomeType !== option.label}"
+                                        />
+                                    </div>
+                                    <h6 class="mb-2 block font-sans text-md font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
+                                        {{ option.label }}
+                                    </h6>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="mt-2">
+                        <InputField
+                            v-model="formJefeFamilia.incomeAmount"
+                            label="Monto"
+                            typeInput="number"
+                            placeholder="Introduce el monto"
+                        />
+                    </div>
                 </div>
+
                 <div v-show="step === 3">
                     <h2 class="text-lg font-semibold text-gray-600">
                         Características del Grupo Familiar
                     </h2>
+                    <p class="text-sm text-gray-600">
+                        Agregue uno o más miembros del grupo familiar
+                    </p>
                     <div class="mt-2 grid grid-cols-2 gap-4">
                         <InputField
                             v-model="form.name"
@@ -503,6 +571,13 @@ export default {
                 { value: "M", label: "Masculino" },
                 { value: "F", label: "Femenino" },
                 { value: "O", label: "Otro" },
+            ],
+            incomeOptions: [
+                { label: "Diario", icon: "money-bill-wave" },
+                { label: "Semanal", icon: "calendar-week" },
+                { label: "Quincenal", icon: "calendar-alt" },
+                { label: "Mensual", icon: "calendar" },
+                { label: "Por trabajo", icon: "briefcase" },
             ],
             formJefeFamilia: {
                 names: "",
