@@ -2,7 +2,7 @@
     <div class="fixed inset-0 z-50 flex items-center justify-center">
         <div class="bg-black opacity-25 absolute inset-0"></div>
         <div
-            class="bg-white rounded-lg p-6 z-50 relative w-full max-w-xl mx-auto"
+            class="bg-white rounded-lg p-6 relative w-full max-w-xl mx-auto max-h-screen overflow-y-auto"
         >
             <ol
                 class="flex items-center w-full p-3 space-x-2 text-sm font-medium text-center bg-white border border-emerald-500 rounded-lg sm:text-base sm:p-4 sm:space-x-4 rtl:space-x-reverse"
@@ -13,7 +13,7 @@
                     @click="step = 1"
                 >
                     <span
-                        class="flex items-center justify-center w-8 h-8 text-sm border rounded-full shrink-0"
+                        class="flex items-center justify-center w-8 h-8 text-sm border rounded-full shrink-0 border-emerald-500"
                         :class="{
                             'text-white bg-emerald-500': step === 1,
                             'border-gray-500': step !== 1,
@@ -48,7 +48,7 @@
                     @click="step = 2"
                 >
                     <span
-                        class="flex items-center justify-center w-8 h-8 text-sm border rounded-full shrink-0"
+                        class="flex items-center justify-center w-8 h-8 text-sm border border-emerald-500 rounded-full shrink-0"
                         :class="{
                             'text-white bg-emerald-500': step === 2,
                             'border-gray-500': step !== 2,
@@ -83,7 +83,7 @@
                     @click="step = 3"
                 >
                     <span
-                        class="flex items-center justify-center w-8 h-8 text-sm border rounded-full shrink-0"
+                        class="flex items-center justify-center w-8 h-8 text-sm border border-emerald-500 rounded-full shrink-0"
                         :class="{
                             'text-white bg-emerald-500': step === 3,
                             'border-gray-500': step !== 3,
@@ -212,41 +212,39 @@
                             />
                         </div>
                     </div>
-                    <div class="mt-6 grid grid-cols-2 gap-4">
-                        <div class="text-center">
+                    <div class="mt-2 grid grid-cols-2 gap-4">
+                        <div class="flex">
                             <input
                                 v-model="formJefeFamilia.isDisability"
                                 label="Discapacidad"
                                 type="checkbox"
-                                class="accent-emerald-500 focus:ring-emerald-500 h-4 w-4 text-emerald-600 border-gray-300 rounded"
+                                class="accent-emerald-500 w-5 mt-5 mr-2 focus:ring-emerald-500 text-emerald-600 border-gray-300 rounded cursor-pointer"
                             />
-                            <label class="text-gray-600 text-sm ml-1 font-medium">Discapacidad</label>
+                            <label v-if="!formJefeFamilia.isDisability" class="text-gray-600 text-sm ml-1 font-medium mt-6">Discapacidad</label>
+                            <InputField
+                                v-if="formJefeFamilia.isDisability"
+                                v-model="formJefeFamilia.disabilityType"
+                                label="Tipo de Discapacidad"
+                                typeInput="text"
+                                placeholder="Introduce el tipo de discapacidad"
+                            />
                         </div>
-                        <div class="text-center">
+                        <div class="flex">
                             <input
                                 v-model="formJefeFamilia.isPensioner"
                                 label="Pensionado"
                                 type="checkbox"
-                                class="accent-emerald-500 focus:ring-emerald-500 h-4 w-4 text-emerald-600 border-gray-300 rounded"
+                                class="accent-emerald-500 w-5 mt-5 mr-2 focus:ring-emerald-500 text-emerald-600 border-gray-300 rounded cursor-pointer"
                             />
-                            <label class="text-gray-600 text-sm ml-1 font-medium">Pensionado</label>
+                            <label v-if="!formJefeFamilia.isPensioner" class="text-gray-600 text-sm ml-1 font-medium mt-6">Pensionado</label>
+                            <InputField
+                                v-if="formJefeFamilia.isPensioner"
+                                v-model="formJefeFamilia.institute"
+                                label="Institución"
+                                typeInput="text"
+                                placeholder="Introduce la institución"
+                            />
                         </div>
-                    </div>
-                    <div class="mt-2 grid grid-cols-2 gap-4">
-                        <InputField
-                            v-if="formJefeFamilia.isDisability"
-                            v-model="formJefeFamilia.disabilityType"
-                            label="Tipo de Discapacidad"
-                            typeInput="text"
-                            placeholder="Introduce el tipo de discapacidad"
-                        />
-                        <InputField
-                            v-if="formJefeFamilia.isPensioner"
-                            v-model="formJefeFamilia.institute"
-                            label="Institución"
-                            typeInput="text"
-                            placeholder="Introduce la institución"
-                        />
                     </div>
                     <div class="mt-2 grid grid-cols-2 gap-4">
                         <InputField
@@ -306,11 +304,11 @@
                         <div class="text-center">
                             <input
                                 v-model="formJefeFamilia.isWorking"
-                                label="Trabajando"
+                                label="Trabaja"
                                 type="checkbox"
                                 class="accent-emerald-500 focus:ring-emerald-500 h-4 w-4 text-emerald-600 border-gray-300 rounded"
                             />
-                            <label class="text-gray-600 text-sm ml-1 font-medium">Trabajando</label>
+                            <label class="text-gray-600 text-sm ml-1 font-medium">Trabaja?</label>
                         </div>
                         <InputField
                             v-if="formJefeFamilia.isWorking"
@@ -398,6 +396,24 @@
                     <p class="text-sm text-gray-600">
                         Agregue uno o más miembros del grupo familiar
                     </p>
+                    <div v-if="familiarUserArray.length > 0" class="flex gap-2 mt-2">
+                        <div
+                            v-for="(familiarUser, index) in familiarUserArray"
+                            :key="index"
+                            class="relative grid select-none items-center whitespace-nowrap rounded-lg border border-emerald-500 py-1.5 px-3 font-sans text-xs font-bold uppercase text-emerald-500 cursor-pointer"
+                        >
+                            <span>{{ familiarUser.name }}</span>
+                            <span
+                                @click="familiarUserArray.splice(index, 1)"
+                                class="absolute top-0 right-0 bottom-0 flex items-center justify-center w-6 h-6 text-emerald-500 cursor-pointer"
+                            >
+                                <font-awesome-icon
+                                    :icon="['fas', 'times']"
+                                    class="text-sm"
+                                />
+                            </span>
+                        </div>
+                    </div>
                     <div class="mt-2 grid grid-cols-2 gap-4">
                         <InputField
                             v-model="form.name"
@@ -489,6 +505,16 @@
                             <option :value="true">Sí</option>
                             <option :value="false">No</option>
                         </select>
+                    </div>
+                    <!-- button for add familiar user -->
+                    <div class="mt-3">
+                        <button
+                            type="button"
+                            class="block w-full px-4 py-2 bg-emerald-500 text-white rounded-lg font-semibold text-sm"
+                            @click="familiarUserArray.push(form)"
+                        >
+                            Agregar Miembro
+                        </button>
                     </div>
                 </div>
                 <div
@@ -606,6 +632,7 @@ export default {
                 incomeType: "",
                 incomeAmount: "",
             },
+            familiarUserArray: [],
             form: {
                 name: "",
                 lastName: "",
